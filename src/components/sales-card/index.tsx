@@ -1,13 +1,13 @@
-import './styles.css';
-import 'react-datepicker/dist/react-datepicker.css';
+import "./styles.css";
+import "react-datepicker/dist/react-datepicker.css";
 
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
 
-import { Sale } from '../../models/sale';
-import { BASE_URL } from '../../utils/request';
-import NotificationButton from '../notification-button';
+import { Sale } from "../../models/sale";
+import { BASE_URL } from "../../utils/request";
+import NotificationButton from "../notification-button";
 
 function SalesCard() {
   const min = new Date(new Date().setDate(new Date().getDate() - 365));
@@ -17,11 +17,15 @@ function SalesCard() {
   const [maxDate, setMaxDate] = useState(max);
   const [sales, setSales] = useState<Sale[]>([]);
 
+  const dmin = minDate.toISOString().slice(0, 10);
+  const dmax = maxDate.toISOString().slice(0, 10);
+
   useEffect(() => {
-    axios.get(`${BASE_URL}/sales`).then((response) => {
-      setSales(response.data.content);
-    });
-  }, []);
+    axios
+      .get(`${BASE_URL}/sales?minDate=${dmin}&maxDate=${dmax}`)
+      .then((response) => setSales(response.data.content))
+      .catch((error) => console.log("Erro ao buscar vendas: " + error));
+  }, [minDate, maxDate, dmin, dmax]);
 
   return (
     <div className="dsmeta-card">
