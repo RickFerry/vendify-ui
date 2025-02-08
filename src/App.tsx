@@ -1,5 +1,5 @@
-import Header from "./components/header";
-import SalesCard from "./components/sales-card";
+import Header from './components/header';
+import SalesCard from './components/sales-card';
 
 function App() {
   return (
