@@ -1,13 +1,13 @@
-import "./styles.css";
-import "react-datepicker/dist/react-datepicker.css";
+import './styles.css';
+import 'react-datepicker/dist/react-datepicker.css';
 
-import axios from "axios";
-import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
 
-import { Sale } from "../../models/sale";
-import { BASE_URL } from "../../utils/request";
-import NotificationButton from "../notification-button";
+import { Sale } from '../../models/sale';
+import { BASE_URL } from '../../utils/request';
+import NotificationButton from '../notification-button';
 
 function SalesCard() {
   const min = new Date(new Date().setDate(new Date().getDate() - 365));
@@ -74,7 +74,7 @@ function SalesCard() {
                 <td className="show992">{sale.deals}</td>
                 <td>{sale.amount.toFixed(2)}</td>
                 <td>
-                  <NotificationButton />
+                  <NotificationButton saleId={sale.id} />
                 </td>
               </tr>
             ))}

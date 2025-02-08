@@ -1,12 +1,25 @@
 import './styles.css';
 
 import icon from '../../assets/img/notification-icon.svg';
+import axios from 'axios';
+import { BASE_URL } from '../../utils/request';
 
-function NotificationButton() {
+type Props = {
+  readonly saleId: number;
+};
+
+function handleClicked(saleId: number): void {
+  axios.get(`${BASE_URL}/sales/${saleId}/send-sms`)
+    .then(() => alert('Notificação enviada com sucesso!'))
+    .catch(() => alert('Erro ao enviar notificação!'));
+}
+
+function NotificationButton({ saleId }: Props) {
+
   return (
-    <div className="dsmeta-red-btn">
+    <button className="dsmeta-red-btn" onClick={() => handleClicked(saleId)}>
       <img src={icon} alt="Notificar" />
-    </div>
+    </button>
   );
 }
 
