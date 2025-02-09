@@ -1,5 +1,6 @@
 import './styles.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import ReactPaginate from 'react-paginate';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -16,6 +17,15 @@ function SalesCard() {
   const [minDate, setMinDate] = useState(min);
   const [maxDate, setMaxDate] = useState(max);
   const [sales, setSales] = useState<Sale[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
+
+  const handlePageClick = (event: { selected: number }) => {
+    setCurrentPage(event.selected);
+  };
+
+  const offset = currentPage * itemsPerPage;
+  const currentSales = sales.slice(offset, offset + itemsPerPage);
 
   const dmin = minDate.toISOString().slice(0, 10);
   const dmax = maxDate.toISOString().slice(0, 10);
@@ -63,7 +73,7 @@ function SalesCard() {
             </tr>
           </thead>
           <tbody>
-            {sales.map((sale) => (
+            {currentSales.map((sale) => (
               <tr key={sale.id}>
                 <td className="show992">{sale.id}</td>
                 <td className="show576">
@@ -80,6 +90,17 @@ function SalesCard() {
             ))}
           </tbody>
         </table>
+        <ReactPaginate
+          previousLabel={"previous"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          pageCount={Math.ceil(sales.length / itemsPerPage)}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+        />
       </div>
     </div>
   );
